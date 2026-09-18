@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   مركز البركة — Dual Brand System
+   Royal Blue (#2B3E9E) + Golden Yellow (#F9BC15)
+------------------------------------------------------------------- */
+@theme {
+  --font-sans: "Tajawal", ui-sans-serif, system-ui, sans-serif;
+
+  /* Brand — royal blue (structure, primary actions) */
+  --color-brand-50: #eef1fb;
+  --color-brand-100: #d9dff5;
+  --color-brand-200: #b4bfe9;
+  --color-brand-300: #8494d6;
+  --color-brand-400: #5566bd;
+  --color-brand-500: #2b3e9e;
+  --color-brand-600: #243486;
+  --color-brand-700: #1e2b6e;
+  --color-brand-800: #182257;
+  --color-brand-900: #121a42;
+  --color-brand-950: #0b1028;
+
+  /* Accent — golden yellow (highlights, energy, chart) */
+  --color-accent-50: #fff9e8;
+  --color-accent-100: #fef0c4;
+  --color-accent-200: #fde08a;
+  --color-accent-300: #fbce4f;
+  --color-accent-400: #f9bc15;
+  --color-accent-500: #e5a80c;
+  --color-accent-600: #c48c08;
+  --color-accent-700: #9a6d0a;
+  --color-accent-800: #7d570f;
+  --color-accent-900: #684812;
+  --color-accent-950: #3d2a06;
+
+  /* Ink — cool neutrals that sit with blue */
+  --color-ink-50: #f5f6f9;
+  --color-ink-100: #ebedf3;
+  --color-ink-200: #d5d9e4;
+  --color-ink-300: #b4bacb;
+  --color-ink-400: #8b93a8;
+  --color-ink-500: #6c748a;
+  --color-ink-600: #555b70;
+  --color-ink-700: #44495a;
+  --color-ink-800: #2c3040;
+  --color-ink-900: #161926;
+
+  /* Status */
+  --color-success-50: #ecf8ef;
+  --color-success-500: #22a34a;
+  --color-success-700: #167a35;
+  --color-danger-50: #fef1f0;
+  --color-danger-500: #e5483d;
+  --color-danger-700: #b8342b;
+  --color-info-50: #eef1fb;
+  --color-info-500: #2b3e9e;
+  --color-info-700: #1e2b6e;
+
+  --shadow-soft: 0 1px 2px rgb(22 25 38 / 0.04), 0 4px 16px rgb(22 25 38 / 0.04);
+  --shadow-card: 0 2px 8px rgb(22 25 38 / 0.05), 0 8px 28px rgb(22 25 38 / 0.06);
+  --shadow-pop: 0 8px 30px rgb(22 25 38 / 0.12);
+  --shadow-brand: 0 8px 24px rgb(43 62 158 / 0.28);
+  --shadow-accent: 0 8px 24px rgb(249 188 21 / 0.28);
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-ink-50 font-sans text-ink-800 antialiased;
+  font-feature-settings: "kern";
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  @apply bg-accent-200 text-brand-950;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-ink-300) transparent;
+}
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--color-ink-300);
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+:where(button, a, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-brand-500);
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+
+.num-display {
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
