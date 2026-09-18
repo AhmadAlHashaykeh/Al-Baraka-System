@@ -1,9 +1,9 @@
 import { cn } from '../../lib/cn'
 
-export default function Table({ className, children }) {
+export default function Table({ className, fit = false, children }) {
   return (
     <div className={cn('overflow-x-auto', className)}>
-      <table className="w-full min-w-max border-collapse text-start">{children}</table>
+      <table className={cn('w-full border-collapse text-start', !fit && 'min-w-max')}>{children}</table>
     </div>
   )
 }

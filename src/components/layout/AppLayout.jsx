@@ -1,16 +1,24 @@
 import { useState } from 'react'
 import Sidebar from './Sidebar'
 import Header from './Header'
-import { findNavItem } from './navigation'
+import { findNavItem, getNavItems, resolveNavHighlight } from './navigation'
 
-export default function AppLayout({ activeId, onNavigate, headerSubtitle, children }) {
+export default function AppLayout({
+  activeId,
+  onNavigate,
+  headerSubtitle,
+  programs = [],
+  children,
+}) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
-  const current = findNavItem(activeId)
+  const current = findNavItem(activeId, programs)
+  const navActiveId = resolveNavHighlight(activeId, programs)
 
   return (
     <div className="flex min-h-screen bg-ink-50">
       <Sidebar
-        activeId={activeId}
+        activeId={navActiveId}
+        navItems={getNavItems()}
         onNavigate={(id) => {
           onNavigate(id)
           setMobileNavOpen(false)

@@ -33,35 +33,46 @@ function NavLeaf({ item, active, onClick, nested = false }) {
 
 function NavGroup({ item, activeId, onNavigate }) {
   const childActive = item.children.some((c) => c.id === activeId)
-  const [open, setOpen] = useState(childActive)
+  const [manualOpen, setManualOpen] = useState(false)
+  const [forceClosed, setForceClosed] = useState(false)
+  const open = forceClosed ? false : childActive || manualOpen
   const Icon = item.icon
+
+  if (!childActive && forceClosed) {
+    setForceClosed(false)
+  }
+
+  const toggle = () => {
+    if (open) {
+      setForceClosed(true)
+      setManualOpen(false)
+    } else {
+      setForceClosed(false)
+      setManualOpen(true)
+    }
+  }
 
   return (
     <div>
       <button
         type="button"
-        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        onClick={toggle}
         className={cn(
           'group flex w-full items-center gap-3 rounded-2xl px-3.5 py-2.5 text-sm transition-all duration-200',
-          childActive && !open
-            ? 'bg-brand-500 font-bold text-white shadow-brand'
-            : open
-              ? 'bg-brand-50 font-bold text-brand-800'
-              : 'font-medium text-ink-500 hover:bg-ink-100 hover:text-ink-800',
+          childActive || open
+            ? 'bg-brand-50 font-bold text-brand-800'
+            : 'font-medium text-ink-500 hover:bg-ink-100 hover:text-ink-800',
         )}
       >
         <Icon
-          className={cn(
-            'size-[18px] shrink-0',
-            childActive && !open ? 'text-accent-400' : 'text-ink-400 group-hover:text-ink-600',
-          )}
+          className="size-[18px] shrink-0 text-ink-400 group-hover:text-ink-600"
           strokeWidth={2}
         />
         <span className="flex-1 truncate text-start">{item.label}</span>
         <ChevronDown
           className={cn(
-            'size-4 transition-transform duration-300',
-            childActive && !open ? 'text-white/70' : 'text-ink-400',
+            'size-4 shrink-0 text-ink-400 transition-transform duration-300',
             open && 'rotate-180',
           )}
         />
@@ -91,7 +102,13 @@ function NavGroup({ item, activeId, onNavigate }) {
   )
 }
 
-export default function Sidebar({ activeId, onNavigate, mobileOpen, onCloseMobile }) {
+export default function Sidebar({
+  activeId,
+  onNavigate,
+  mobileOpen,
+  onCloseMobile,
+  navItems = NAV_ITEMS,
+}) {
   const content = (
     <div className="flex h-full flex-col">
       {/* Brand */}
@@ -119,9 +136,18 @@ export default function Sidebar({ activeId, onNavigate, mobileOpen, onCloseMobil
           القائمة الرئيسية
         </p>
         <div className="flex flex-col gap-1">
-          {NAV_ITEMS.map((item) =>
+          {navItems.map((item) =>
             item.children ? (
-              <NavGroup key={item.id} item={item} activeId={activeId} onNavigate={onNavigate} />
+              item.children.length === 0 ? (
+                <NavLeaf
+                  key={item.id}
+                  item={item}
+                  active={item.isActive?.(activeId) || activeId === item.id}
+                  onClick={() => onNavigate(item.id)}
+                />
+              ) : (
+                <NavGroup key={item.id} item={item} activeId={activeId} onNavigate={onNavigate} />
+              )
             ) : (
               <NavLeaf
                 key={item.id}
